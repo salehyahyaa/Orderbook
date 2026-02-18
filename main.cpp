@@ -101,8 +101,29 @@ class Order {
   using OrderPointer = std::shared_prt<Order>;
   using OrderPointers = std::list<OrderPointer>           //using a linked list to hold orders because a list gives an iterator that cannot be invailidated depsite the list can grow very, large this will be seful to identiofy where our order is in either bid or ask orderbook
                                                         //trade-off list over vector for simplicity as both get the job done but vector wouldve been...
+"""
+WE NEED TO CREATE A REPRESENTATION FOR AN ORDER THAT CAN BE MODIFIED
+-add //need order | 
+-modify //need's a representation of an order that can be converted to new order |
+    to modify means to cancel then replace | CANCEL == (orderId) to do, REPLACE == (price, quantity, side) to do    
+-cancel //need orderId |
+"""
+  class OrderModify {
+    public: 
+      OrderModify(OrderId, orderId, Side side, Price price, Quantity Quantity)
+      : orderId_ { orderId },
+        side_ { side },
+        price_ { price },
+        quantity_ { quantity }
+      {}
 
+      OrderId GetOrderId() const { return orderId_; }
+      Price GetPrice() const { return price_; }
+      Side GetSide() const { side_; }
+      Quantity GetQuantity() const { quantity_; } 
 
+                     //taking an existing order and transforming it into a new order 
+  }
 
 
 
