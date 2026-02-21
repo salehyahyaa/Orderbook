@@ -71,7 +71,7 @@ class Order {
       price_ { price},
       initialQuantity_ { quantity },            //3_t of quantites (intial quantity, the quantity remaining, the quantity that's been filled)
       remainingQuantity_ { quantity }           //remaming quantity always starts off as intintal quanity and wheahter or not its remaining tells us if its been filled or not
-    {}
+    { }
 
     OrderId GetOrderId() const { return orderId_; }
     Side GetSide() const { return side_; }
@@ -99,32 +99,49 @@ class Order {
   };
 
   using OrderPointer = std::shared_ptr<Order>;
-  using OrderPointers = std::list<OrderPointer>           //using a linked list to hold orders because a list gives an iterator that cannot be invailidated depsite the list can grow very, large this will be seful to identiofy where our order is in either bid or ask orderbook
+  using OrderPointers = std::list<OrderPointer>;          //using a linked list to hold orders because a list gives an iterator that cannot be invailidated depsite the list can grow very large, this will be useful to identiofy where our order is in either bid or ask orderbook
                                                         //trade-off list over vector for simplicity as both get the job done but vector wouldve been...
 /*
 WE NEED TO CREATE A REPRESENTATION FOR AN ORDER THAT CAN BE MODIFIED
--add //need order | 
+-add //need's Order (orderType, orderId, side, price, quantity) 
 -modify //need's a representation of an order that can be converted to new order |
     to modify means to cancel then replace | CANCEL == (orderId) to do, REPLACE == (price, quantity, side) to do    
 -cancel //need orderId |
 */
   class OrderModify {
     public: 
-      OrderModify(OrderId, orderId, Side side, Price price, Quantity Quantity)
+      OrderModify(OrderId orderId, Side side, Price price, Quantity quantity)
       : orderId_ { orderId },
         side_ { side },
         price_ { price },
         quantity_ { quantity }
-      {}
+      { }
 
       OrderId GetOrderId() const { return orderId_; }
       Price GetPrice() const { return price_; }
-      Side GetSide() const { side_; }
-      Quantity GetQuantity() const { quantity_; } 
+      Side GetSide() const { return side_; }
+      Quantity GetQuantity() const { return quantity_; }
 
-                     //taking an existing order and transforming it into a new order 
+      OrderPointer ToOrderPointer(OrderType type) const {              //taking an existing order and transforming it with this OrderModify class into a new order,  //for this project the only orders we can modify are GoodTillCancel but this in case we want to support more order types in future
+        return std::make_shared<Order>(type, GetOrderId(), GetSide(), GetPrice(), GetQuantity());
+      }
+    
+    private: 
+       OrderId orderId_;
+       Price price_;
+       Side side_;
+       Quantity quantity_;
+  };
+//now we have order, order modify, and orderCancel just needs the orderId
+//we now need to represent what happens when a order is matched. we will use a trade Object to represent this
+//tradeObject: an aggragation of 2 trade info objects | tradeInfoObject for the BID && tradeInfoObject for the ASK //because a bid has to match an ask and vise versa
+
+  struct TradeInfoObject {    //every TradeInfoObject has OrderId of whats traded
+    OrderId orderId_;
+    Price price_;
+    Quantity Quantity_;
+    
   }
-
 
 
 
