@@ -141,7 +141,7 @@ WE NEED TO CREATE A REPRESENTATION FOR AN ORDER THAT CAN BE MODIFIED
 
 //we now need to represent what happens when a order is matched. we will use a trade Object to represent this
 //tradeObject: an aggragation of 2 trade info objects | tradeInfoObject for the BID && tradeInfoObject for the ASK //because a bid has to match an ask and vise versa
-  struct TradeInfoObject {    //every TradeInfoObject has OrderId of whats traded
+  struct TradeInfo {    //every TradeInfo(is an object) that has OrderId of whats traded
     OrderId orderId_;
     Price price_;
     Quantity Quantity_;
@@ -149,11 +149,36 @@ WE NEED TO CREATE A REPRESENTATION FOR AN ORDER THAT CAN BE MODIFIED
 
   class Trade {           //represents bid and ask side trades
     public: 
-      Trade(const TradeInfo& bidTrade, const TradeInfo& askTrade)
-      : bidTrade_ { bidTrade },
+      Trade(const TradeInfo& bidTrade, const TradeInfo& askTrade)//constructor
+      : bidTrade_ { bidTrade }, //Intilizing object
         askTrade_ { askTrade }
     { }
+
+    const TradeInfo& GetBidTrade() const { return bidTrade_; }
+    const TradeInfo& GetAskTrade() const { return askTrade_; }//getter method
+  
+  private:
+    TradeInfo bidTrade_;
+    TradeInfo askTrade_;
   };
+  //because there can be more than 1 order/execution we return a vector of orders since a order can take shares from multiple ask'ers causing multiple matches
+  using Trades = std::vector<Trade>;
+
+  class Orderbook {
+    private:                //when storing orders we'll use a map(DSA) to represent bids && asks, bids sorted in ascneding order(best bids), asks sorted in desencding order(best ask), we will have O(1) easy access based on orderId
+    
+      struct OrderEntry {
+        OrderPointer order_{ nullptr };
+        OrderPointers::iterator location_;
+      };
+
+      std::map<Price, OrderPointers, std::greater<Price>> bids_;
+      std::map<Price, OrderPointers, std::less<Price>> asks_;
+
+
+  
+  };
+
 
 
 
