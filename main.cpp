@@ -18,6 +18,10 @@
 #include <tuple>
 #include <format>
 
+/*
+An orderbook is a catelog that maintains all active buy and sell orders for a financial instrument, organized by price and time priority
+*/
+
 enum class OrderType {
 
   GoodTillCancel,
@@ -133,15 +137,23 @@ WE NEED TO CREATE A REPRESENTATION FOR AN ORDER THAT CAN BE MODIFIED
        Quantity quantity_;
   };
 //now we have order, order modify, and orderCancel just needs the orderId
+
+
 //we now need to represent what happens when a order is matched. we will use a trade Object to represent this
 //tradeObject: an aggragation of 2 trade info objects | tradeInfoObject for the BID && tradeInfoObject for the ASK //because a bid has to match an ask and vise versa
-
   struct TradeInfoObject {    //every TradeInfoObject has OrderId of whats traded
     OrderId orderId_;
     Price price_;
     Quantity Quantity_;
-    
-  }
+  };
+
+  class Trade {           //represents bid and ask side trades
+    public: 
+      Trade(const TradeInfo& bidTrade, const TradeInfo& askTrade)
+      : bidTrade_ { bidTrade },
+        askTrade_ { askTrade }
+    { }
+  };
 
 
 
