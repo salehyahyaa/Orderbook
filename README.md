@@ -1,5 +1,5 @@
-# Orderbook
-Orderbook is a C++ implementation of a limit order book, the core data structure used in financial markets to match buy and sell orders in real time. The project models how bids and asks interact and provides a foundation for building trading engines, matching engines, or market simulators. It is designed as both a functional system and a learning tool for understanding market microstructure.
+# Limit Order Matching System
+A C++ implementation of a limit order matching system, the core data structure used in financial markets to match buy and sell orders in real time. The project models how bids and asks interact and provides a foundation for building trading engines, matching engines, or market simulators. It is designed as both a functional system and a learning tool for understanding market microstructure.
 
 
 ## Features
