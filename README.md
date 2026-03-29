@@ -33,7 +33,7 @@ Orderbook is a C++ implementation of a limit order book, the core data structure
 - Tooling: Compatible with standard C++ compilers and IDEs
 
 
-## ## Setup 
+## Setup 
 This repository includes the following project files:
 - `Orderbook.sln`
 - `Orderbook.vcxproj`
