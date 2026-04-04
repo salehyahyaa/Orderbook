@@ -17,137 +17,16 @@
 #include <optional>
 #include <tuple>
 #include <format>
-
 /*
 An orderbook is a catelog that maintains all active buy and sell orders for a financial instrument, organized by price and time priority
 */
 
-enum class OrderType {
 
-  GoodTillCancel,
-  FillAndKill,
-};
-
-
-enum class Side {
-  Buy,
-  Sell
-};
 
 
 using Price = std::int32_t;                          //int == 4 bytes //alias
 using Quantity = std::uint32_t;
 using OrderId = std::uint64_t;                      //int == 8 bytes
-
-
-struct LevelInfo {                                 //used in public API's to get information about the state of the orderbook
-  Price price;
-  Quantity quantity;
-};
-
-using LevelInfos = std::vector<LevelInfo>; //LevelInfos == objects within the array Levelinfo {object1, object2}, each object within the array have INT Price/Quantity 
-
-
-//now we describe things we will add to the orderbook whitch is order objects(orderType, orderID, side, price, quantity, other apis to get filled, wheather they are filled, etc)
-class Order {
-  
-  public:                                                                                      //<--constructor 
-    Order(OrderType orderType, OrderId orderId, Side side, Price price, Quantity quantity)
-    : orderType_ { orderType },
-      orderId_ { orderId },
-      side_ { side },
-      price_ { price},
-      initialQuantity_ { quantity },            //3_t of quantites (intial quantity, the quantity remaining, the quantity that's been filled)
-      remainingQuantity_ { quantity }           //remaming quantity always starts off as intintal quanity and wheahter or not its remaining tells us if its been filled or not
-    { }
-
-    OrderId GetOrderId() const { return orderId_; }
-    Side GetSide() const { return side_; }
-    Price GetPrice() const { return price_; }
-    OrderType GetOrderType() const { return orderType_; }
-    Quantity GetInitialQuantity() const { return initialQuantity_; }
-    Quantity GetRemainingQuantity() const { return remainingQuantity_; }
-    Quantity GetFilledQuantity() const { return GetInitialQuantity() - GetRemainingQuantity(); }
-    
-    void Fill(Quantity quantity) {
-        if (quantity > GetRemainingQuantity())                    //if someone tried to fill more than what remains //quantity == how much someone is trying to fill
-          throw std:: logic_error(std::logic_error("cannot be filled for more than its remaining suppl." + std::to_string(GetOrderId())));
-        
-        remainingQuantity_ =  remainingQuantity_ - quantity;
-  }
-  
-  
-  private:
-    OrderType orderType_;
-    OrderId orderId_;
-    Side side_;                 //represents the side of the orderbook your on... ASK || BID
-    Price price_;
-    Quantity initialQuantity_;
-    Quantity remainingQuantity_;
-  };
-
-  using OrderPointer = std::shared_ptr<Order>;
-  using OrderPointers = std::list<OrderPointer>;          //using a linked list to hold orders because a list gives an iterator that cannot be invailidated depsite the list can grow very large, this will be useful to identiofy where our order is in either bid or ask orderbook
-                                                        //trade-off list over vector for simplicity as both get the job done but vector wouldve been...
-/*
-WE NEED TO CREATE A REPRESENTATION FOR AN ORDER THAT CAN BE MODIFIED
--add //need's Order (orderType, orderId, side, price, quantity) 
--modify //need's a representation of an order that can be converted to new order |
-    to modify means to cancel then replace | CANCEL == (orderId) to do, REPLACE == (price, quantity, side) to do    
--cancel //need orderId |
-*/
-  class OrderModify {
-    public: 
-      OrderModify(OrderId orderId, Side side, Price price, Quantity quantity)
-      : orderId_ { orderId },
-        side_ { side },
-        price_ { price },
-        quantity_ { quantity }
-      { }
-
-      OrderId GetOrderId() const { return orderId_; }
-      Price GetPrice() const { return price_; }
-      Side GetSide() const { return side_; }
-      Quantity GetQuantity() const { return quantity_; }
-
-      OrderPointer ToOrderPointer(OrderType type) const {              //taking an existing order and transforming it with this OrderModify class into a new order,  //for this project the only orders we can modify are GoodTillCancel but this in case we want to support more order types in future
-        return std::make_shared<Order>(type, GetOrderId(), GetSide(), GetPrice(), GetQuantity());
-      }
-    
-    private: 
-       OrderId orderId_;
-       Price price_;
-       Side side_;
-       Quantity quantity_;
-  };
-//now we have order, order modify, and orderCancel just needs the orderId
-
-
-
-
-  class Orderbook {
-    private:                //when storing orders we'll use a map(DSA) to represent bids && asks, bids sorted in ascneding order(best bids), asks sorted in desencding order(best ask), we will have O(1) easy access based on orderId
-    
-      struct OrderEntry {
-        OrderPointer order_{ nullptr };
-        OrderPointers::iterator location_;
-      };
-
-      std::map<Price, OrderPointers, std::greater<Price>> bids_;
-      std::map<Price, OrderPointers, std::less<Price>> asks_;
-
-
-  
-  };
-
-
-
-
-
-
-
-
-
 
 
 int main() {
