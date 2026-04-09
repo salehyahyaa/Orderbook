@@ -25,6 +25,30 @@ class Orderbook {
 
       std::map<Price, OrderPointers, std::greater<Price>> bids_;
       std::map<Price, OrderPointers, std::less<Price>> asks_;
+      std::map<unordered_map, OrderEntry> orders_;
+
+      //adding match method && canMatch method 
+
+      bool CanMatch(Side side, Price price) const {
+        if (side == Side::Buy) {//if incoming order is buy side
+
+          if (asks_,empty())
+            return false;
+          
+          const auto& [bestAsk, ...] = *asks_.begin();
+          return price >= bestPrice;
+        }
+
+        if (bids_.empty())
+          return false; 
+
+        const auto& [bestBid]
+
+        }
+
+
+
+      }
 
 
   

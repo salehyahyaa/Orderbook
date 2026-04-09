@@ -3,6 +3,6 @@
 
 #include <Usings.h>
 
-strcut Constants {
+struct Constants {
     ...
 };
