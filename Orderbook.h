@@ -15,10 +15,11 @@
 An orderbook is a catelog that maintains all active buy and sell orders for a financial instrument, organized by price and time priority
 */
 
+
 class Orderbook {
-    private:                //when storing orders we'll use a map(DSA) to represent bids && asks, bids sorted in ascneding order(best bids), asks sorted in desencding order(best ask), we will have O(1) easy access based on orderId
+    private:                                              //when storing bids &&asks we'll use a map, bids sorted in ascneding order(best bids), asks sorted in desencding order(best ask), we will have O(1) easy access based on orderId
     
-      struct OrderEntry {
+      struct OrderEntry {                                 //represents an order and its location in an orderbook
         OrderPointer order_{ nullptr };
         OrderPointers::iterator location_;
       };
@@ -27,10 +28,9 @@ class Orderbook {
       std::map<Price, OrderPointers, std::less<Price>> asks_;
       std::map<unordered_map, OrderEntry> orders_;
 
-      //adding match method && canMatch method 
 
-      bool CanMatch(Side side, Price price) const {
-        if (side == Side::Buy) {//if incoming order is buy side
+      bool CanMatch(Side side, Price price) const {       //adding match method && canMatch method 
+        if (side == Side::Buy) {                          //if incoming order is buy side
 
           if (asks_,empty())
             return false;

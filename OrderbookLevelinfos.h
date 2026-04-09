@@ -6,7 +6,7 @@ class OrderbookLevelInfos {
   public:
     OrderbookLevelInfos(const LevelInfos& bids, const LevelInfos& asks)
       : bids_ { bids },                                       //intinlizing fields within constrctor 
-        asks_ { asks }
+        asks_ { asks }                                        //asks_ == self.asks  #python version
     { }
 
     const LevelInfos& GetBids() const { return bids_;}       //public API
