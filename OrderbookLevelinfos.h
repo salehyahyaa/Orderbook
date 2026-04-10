@@ -9,8 +9,8 @@ class OrderbookLevelInfos {
         asks_ { asks }                                        //asks_ == self.asks  #python version
     { }
 
-    const LevelInfos& GetBids() const { return bids_;}       //public API
-    const LevelInfos& GetAsks() const { return asks_;}      //Public API
+    const LevelInfos& GetBids() const { return bids_;}       //getter method
+    const LevelInfos& GetAsks() const { return asks_;}      //getter method
 
 
   private: 
