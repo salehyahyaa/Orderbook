@@ -20,7 +20,7 @@ Orderbook is a C++ implementation of a limit order book, the core data structure
 
 
 ## Project Structure
-'''
+```
 Orderbook/
 ├── .gitattributes
 ├── .gitignore
@@ -59,7 +59,7 @@ Orderbook/
         ├── Match_GoodTillCancel.txt
         ├── Match_Market.txt
         └── Modify_Side.txt
-'''
+```
 
 
 ## Setup 
