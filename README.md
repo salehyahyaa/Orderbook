@@ -21,7 +21,7 @@ Limit Order Matching System is a C++ implementation of a limit order book, the c
 
 ## Project Structure
 ```
-Orderbook/
+LimitOrderMatchingSystem/
 ├── .gitattributes
 ├── .gitignore
 ├── LICENSE.txt
