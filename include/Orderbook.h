@@ -88,11 +88,33 @@ class Orderbook {
                 TradeInfo{ bid->GetOrderId(), bid-> GetPrice(), quantity },
                 TradeInfo{ask-> GetOrderId(), ask -> GetPrice(), quantity }
               });
-
-
+            }
+          }
+          
+          if (!bids_.empty()) {
+            auto& [_, asks] = *asks_.begin(); //begin returns the first element in whatever container asks_ is
+            auto& order = asks.front(); 
+            if (order->GetOrderType() == OrderType::FillAndKill) {
+              CancelOrder(order->GetOrderId());
             }
           }
         }
+
+    public: 
+
+        Trades Addorder(OrderPointer order) {
+          if (orders_.contains(order->GetOrderId())) {
+            return { };         //if we have a duplicate order incoming, the return statment exisiting out early wont allow the function to countie so duplicates never get added
+          }
+
+         if (order-> ) ...
+        }
+
+
+
+
+
+
       };
 
 

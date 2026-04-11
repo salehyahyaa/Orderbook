@@ -1,4 +1,4 @@
-#pragma once //header file guard
+#pragma once 
 #include "LevelInfo.h"
 
 class OrderbookLevelInfos {
@@ -10,7 +10,7 @@ class OrderbookLevelInfos {
     { }
 
     const LevelInfos& GetBids() const { return bids_;}       //getter method
-    const LevelInfos& GetAsks() const { return asks_;}      //getter method
+    const LevelInfos& GetAsks() const { return asks_;}       //getter method
 
 
   private: 

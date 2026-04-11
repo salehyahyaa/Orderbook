@@ -20,17 +20,46 @@ Orderbook is a C++ implementation of a limit order book, the core data structure
 
 
 ## Project Structure
-- `Orderbook.h` / `Orderbook.cpp` — core order book implementation
-- `Order.h` — order model (quantity tracking, fill logic)
-- `OrderType.h`, `Side.h` — enums for order type and side
-- `Trade.h`, `TradeInfo.h` — trade output structures
-- `OrderbookTest/` — Visual Studio test project
-
-
-## Tech Stack
-- Language: C++
-- Project Structure: Header and source files
-- Tooling: Compatible with standard C++ compilers and IDEs
+'''
+Orderbook/
+├── .gitattributes
+├── .gitignore
+├── LICENSE.txt
+├── README.md
+├── Orderbook.sln
+├── Orderbook.vcxproj
+├── Orderbook.vcxproj.filters
+├── include/
+│   ├── Constants.h
+│   ├── LevelInfo.h
+│   ├── Order.h
+│   ├── OrderModify.h
+│   ├── OrderType.h
+│   ├── Orderbook.h
+│   ├── OrderbookLevelInfos.h
+│   ├── Side.h
+│   ├── Trade.h
+│   ├── TradeInfo.h
+│   └── Usings.h
+├── src/
+│   ├── Orderbook.cpp
+│   └── main.cpp
+└── OrderbookTest/
+    ├── OrderbookTest.vcxproj
+    ├── OrderbookTest.vcxproj.filters
+    ├── packages.config
+    ├── pch.cpp
+    ├── pch.h
+    ├── test.cpp
+    └── TestFiles/
+        ├── Cancel_Success.txt
+        ├── Match_FillAndKill.txt
+        ├── Match_FillOrKill_Hit.txt
+        ├── Match_FillOrKill_Miss.txt
+        ├── Match_GoodTillCancel.txt
+        ├── Match_Market.txt
+        └── Modify_Side.txt
+'''
 
 
 ## Setup 
@@ -38,6 +67,7 @@ This repository includes the following project files:
 - `Orderbook.sln`
 - `Orderbook.vcxproj`
 - `OrderbookTest/OrderbookTest.vcxproj`
+
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
