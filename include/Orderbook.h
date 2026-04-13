@@ -97,6 +97,8 @@ class Orderbook {
             if (order->GetOrderType() == OrderType::FillAndKill) {
               CancelOrder(order->GetOrderId());
             }
+
+            return trades;
           }
         }
 
@@ -104,15 +106,42 @@ class Orderbook {
 
         Trades Addorder(OrderPointer order) {
           if (orders_.contains(order->GetOrderId())) {
-            return { };         //if we have a duplicate order incoming, the return statment exisiting out early wont allow the function to countie so duplicates never get added
+            return { };                                                       //if we have a duplicate order incoming, the return statment exisiting out early wont allow the function to countie so duplicates never get added
           }
 
-         if (order-> ) ...
+          if (order->GetOrderType() == OrderType::FillAndKill && !CanMatch(order->GetSide(), order->GetPrice())) {
+            return { };                                                       //if we cannot fulfill the entire orderType(FillAndKill), then kill everything
+          } 
+          OrderPointers::iterator iterator;                                   //iterator for linked list data strcture
+                                                                      //we now resolved all edge cases, if orderId already exists then break, if F&K has remaining quantity then dont fulfill
+          if (order->GetSide() == Side::Buy) {                                //now we have a new order
+            auto& orders = bids_[order->GetPrice()];                          //creates new bid price for new orderId, //bids = dict{price, orderPointers}
+            iterator = std::next(orders.begin(), orders.size() - 1);          //adds new bid order to the end of the map
+          }
+
+          else {                                                              //doing the same for sell side
+            auto& orders = asks_[order->GetPrice()];
+            orders.push_back(order); 
+            iterator = std::next(orders.begin(), orders.size() -1); 
+          }
+
+          orders_.insert({ order->GetOrderId(), OrderEntry{ order, iterator } });    //now we add it to the last spot within the data strcture(map)
+          return MatchOrders();
         }
 
+        void CancelOrder(OrderId orderId) {
+            if (!orders_.contains(orderId)) {
+              return;
+            }
 
+            const auto& [order, orderIterator] = orders_.at(orderId); //COME BACK TO THIS | //lookup orderId in orders_ map, unpack OrderEntry into order(smart ptr) and orderIterator(location in linked list)
+            orders_.erase(orderId); 
 
+            if (order_>GetSide()== Side::Sell) {
+              auto price ...
+            }
 
+        }
 
 
       };
